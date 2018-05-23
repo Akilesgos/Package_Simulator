@@ -1,0 +1,43 @@
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+function wrong_flag() {
+    echo "${RED}Error! You must provide $1 as an argument!${NC}"
+    echo "Quiting..."
+    exit 1
+}
+
+function wrong_agrument() {
+    echo "${RED}Error! After $1 flag you need to add a valid integer!${NC}"
+    echo "Quiting..."
+    exit 1
+}
+
+if [ "$1" == "-a" ]; then
+    if [[ $2 =~ ^-?[0-9]+$ ]]; then
+        echo "${GREEN}Flag -a - OK!${NC}"
+    else
+        wrong_agrument "-a"
+    fi
+else
+    wrong_flag "-a"
+fi
+
+if [ "$3" == "-i" ]; then
+    if [[ $4 =~ ^-?[0-9]+$ ]]; then
+        echo "${GREEN}Flag -i - OK!${NC}"
+    else
+        wrong_agrument "-i"
+    fi
+else
+    wrong_flag "-i"
+fi
+
+if [ "$5" == "--your-algorithm" ] || [ -z "$5" ]; then
+    echo "\nExecuting gossip algorithm..."
+    python3 __main__.py $2 $4 $5
+else
+    wrong_flag "--your-algorithm or nothing"
+fi
+
